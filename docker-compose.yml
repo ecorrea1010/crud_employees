@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: php_apache
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./src:/var/www/html/
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.5
+    container_name: mariadb_db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: crud_app
+      MYSQL_USER: crud_user
+      MYSQL_PASSWORD: Crud_Password
+    volumes:
+      - ./db_data:/var/lib/mysql
