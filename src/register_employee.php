@@ -10,10 +10,10 @@ $contractTypes = $masterDataModel->getContractTypes();
 $message = '';
 
 if (isset($_GET['status'])) {
-    if ($_GET['status'] === 'success') {
-        $message = '<div class="alert alert-success">Empleado registrado exitosamente.</div>';
-    } elseif ($_GET['status'] === 'error') {
+    if ($_GET['status'] === 'error') {
         $message = '<div class="alert alert-danger">Error al registrar empleado.</div>';
+    } else if ($_GET['status'] === 'error_validation') {
+        $message = '<div class="alert alert-warning">Error de validación. Por favor, complete todos los campos correctamente.</div>';
     }
 }
 ?>
@@ -108,6 +108,7 @@ if (isset($_GET['status'])) {
             <!-- Botón centrado -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Registrar</button>
+                <a href="/list_employees.php" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>

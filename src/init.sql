@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
     `job_title_id` INT NOT NULL,
     `contract_type_id` INT NOT NULL,
     `hire_date` DATE NOT NULL,
+    `status` TINYINT(1) NOT NULL DEFAULT 1,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (`document_type_id`) REFERENCES `document_types`(`id`),
@@ -50,7 +51,3 @@ INSERT INTO `contract_types` (`name`) VALUES
 ('Fijo'),
 ('Obra Labor'),
 ('Por prestación de servicios');
-
-
-ALTER TABLE `employees`
-ADD COLUMN `status` TINYINT(1) NOT NULL DEFAULT 1;

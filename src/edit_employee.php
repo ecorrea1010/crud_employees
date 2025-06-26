@@ -14,10 +14,10 @@ $employeeData = $employeId ? $employeesModel->getEmployeeById($employeId) : null
 $message = '';
 
 if (isset($_GET['status'])) {
-    if ($_GET['status'] === 'success') {
-        $message = '<div class="alert alert-success">Empleado registrado exitosamente.</div>';
-    } elseif ($_GET['status'] === 'error') {
+    if ($_GET['status'] === 'error') {
         $message = '<div class="alert alert-danger">Error al registrar empleado.</div>';
+    } elseif ($_GET['status'] === 'error_validation') {
+        $message = '<div class="alert alert-warning">Error de validación. Por favor, complete todos los campos correctamente.</div>';
     }
 }
 ?>

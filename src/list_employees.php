@@ -7,10 +7,22 @@ $employees = $employeesModel->getAllEmployees();
 $message = '';
 
 if (isset($_GET['status'])) {
-  if ($_GET['status'] === 'success') {
-    $message = '<div class="alert alert-success">Empleado actualizado exitosamente.</div>';
-  } elseif ($_GET['status'] === 'error') {
-    $message = '<div class="alert alert-danger">Error al actualizar empleado.</div>';
+  switch ($_GET['status']) {
+    case 'created':
+      $message = '<div class="alert alert-success">Empleado registrado exitosamente.</div>';
+      break;
+    case 'updated':
+      $message = '<div class="alert alert-success">Empleado actualizado exitosamente.</div>';
+      break;
+    case 'deleted':
+      $message = '<div class="alert alert-success">Empleado eliminado exitosamente.</div>';
+      break;
+    case 'error':
+      $message = '<div class="alert alert-danger">Ocurrió un error al procesar la solicitud.</div>';
+      break;
+    default:
+      $message = '';
+      break;
   }
 }
 ?>
@@ -33,7 +45,7 @@ if (isset($_GET['status'])) {
       <?php endif; ?>
 
       <!-- Botón para ir al formulario de registro -->
-      <div class="mb-3 text-end">
+      <div class="mb-3 text-start">
         <a href="register_employee.php" class="btn btn-success">Registrar empleado</a>
       </div>
 
@@ -66,8 +78,9 @@ if (isset($_GET['status'])) {
                   <a href="edit_employee.php?id=<?= htmlspecialchars($employee['id']) ?>" class="btn btn-sm btn-outline-primary">
                     <i class="bi bi-pencil-square"></i>
                   </a>
-                  <a href="delete_employee.php?id=<?= htmlspecialchars($employee['id']) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar este empleado?');">
+                  <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal"  data-employee-id="<?= htmlspecialchars($employee['id']) ?>">
                     <i class="bi bi-trash"></i>
+                  </button>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -78,9 +91,33 @@ if (isset($_GET['status'])) {
           <?php endif; ?>
         </tbody>
         </table>
+    
+      <!-- Modal de confirmación de eliminación -->
+      <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <form action="/Controllers/RegisterEmployeeController.php" method="POST">
+            <input type="hidden" name="_action" value="delete">
+            <input type="hidden" name="employee_id" id="modal-employee-id">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <span>¿Estás seguro de que deseas eliminar este empleado?</span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="js/confirm_deletion.js"></script>
   </body>
 </thml>
